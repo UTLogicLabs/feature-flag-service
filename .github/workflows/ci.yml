@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  typecheck-and-unit:
+    name: Typecheck & unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck -w app
+      - run: npm test
+
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: feature_flags
+          POSTGRES_PASSWORD: feature_flags
+          POSTGRES_DB: feature_flags_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U feature_flags"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Write .env.test
+        run: |
+          cat <<EOF > .env.test
+          DATABASE_URL=postgres://feature_flags:feature_flags@localhost:5432/feature_flags_test
+          TEST_DATABASE_URL=postgres://feature_flags:feature_flags@localhost:5432/feature_flags_test
+          SESSION_SECRET=ci-secret
+          PORT=3001
+          EOF
+      - run: npm run migrate:test
+      - run: npm run test:integration
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
