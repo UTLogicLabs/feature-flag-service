@@ -26,7 +26,7 @@ export default function FlagsIndex() {
               key={env}
               to={`/app/flags?environment=${env}`}
               className={`rounded px-3 py-1 text-sm ${
-                env === environment ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                env === environment ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/70'
               }`}
             >
               {env}
@@ -36,7 +36,7 @@ export default function FlagsIndex() {
         {canEdit ? (
           <Link
             to={`/app/flags/new?environment=${environment}`}
-            className="rounded bg-gray-900 px-3 py-1.5 text-sm text-white hover:bg-gray-700"
+            className="rounded bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90"
           >
             New flag
           </Link>
@@ -45,7 +45,7 @@ export default function FlagsIndex() {
 
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="border-b border-gray-200 text-left text-gray-500">
+          <tr className="border-b border-border text-left text-muted-foreground">
             <th className="py-2">Key</th>
             <th className="py-2">Enabled</th>
             <th className="py-2">Rollout %</th>
@@ -55,9 +55,9 @@ export default function FlagsIndex() {
         </thead>
         <tbody>
           {flags.map((flag) => (
-            <tr key={flag.id} className="border-b border-gray-100 hover:bg-gray-50">
+            <tr key={flag.id} className="border-b border-border hover:bg-muted">
               <td className="py-2">
-                <Link to={`/app/flags/${flag.id}`} className="text-blue-700 hover:underline">
+                <Link to={`/app/flags/${flag.id}`} className="text-primary hover:underline">
                   {flag.key}
                 </Link>
               </td>
@@ -65,17 +65,19 @@ export default function FlagsIndex() {
               <td className="py-2">{flag.rollout_percentage ?? '—'}</td>
               <td className="py-2">
                 {flag.is_kill_switch ? (
-                  <span className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700">Kill switch</span>
+                  <span className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700 dark:bg-red-500/20 dark:text-red-400">
+                    Kill switch
+                  </span>
                 ) : (
                   '—'
                 )}
               </td>
-              <td className="py-2 text-gray-500">{new Date(flag.updated_at).toLocaleString()}</td>
+              <td className="py-2 text-muted-foreground">{new Date(flag.updated_at).toLocaleString()}</td>
             </tr>
           ))}
           {flags.length === 0 ? (
             <tr>
-              <td colSpan={5} className="py-6 text-center text-gray-400">
+              <td colSpan={5} className="py-6 text-center text-muted-foreground">
                 No flags in {environment} yet.
               </td>
             </tr>

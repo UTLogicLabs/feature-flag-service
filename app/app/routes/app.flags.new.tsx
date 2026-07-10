@@ -34,12 +34,12 @@ export default function NewFlag() {
     <div className="max-w-lg">
       <h1 className="mb-4 text-lg font-semibold">New flag</h1>
       <Form method="post" className="space-y-4">
-        {actionData?.error ? <p className="text-sm text-red-600">{actionData.error}</p> : null}
+        {actionData?.error ? <p className="text-sm text-red-600 dark:text-red-400">{actionData.error}</p> : null}
         <div>
           <label className="block text-sm font-medium" htmlFor="key">
             Key
           </label>
-          <input id="key" name="key" required className="mt-1 w-full rounded border border-gray-300 px-3 py-2" />
+          <input id="key" name="key" required className="mt-1 w-full rounded border border-border px-3 py-2" />
         </div>
         <div>
           <label className="block text-sm font-medium" htmlFor="environment">
@@ -49,16 +49,16 @@ export default function NewFlag() {
             id="environment"
             name="environment"
             defaultValue={environment}
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded border border-border px-3 py-2"
           />
         </div>
         <div>
           <label className="block text-sm font-medium" htmlFor="description">
             Description
           </label>
-          <textarea id="description" name="description" className="mt-1 w-full rounded border border-gray-300 px-3 py-2" />
+          <textarea id="description" name="description" className="mt-1 w-full rounded border border-border px-3 py-2" />
         </div>
-        <button type="submit" className="rounded bg-gray-900 px-3 py-2 text-white hover:bg-gray-700">
+        <button type="submit" className="rounded bg-primary px-3 py-2 text-primary-foreground hover:bg-primary/90">
           Create
         </button>
       </Form>

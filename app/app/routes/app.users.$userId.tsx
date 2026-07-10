@@ -33,7 +33,7 @@ export default function UserDetail() {
   return (
     <div className="max-w-md">
       <h1 className="mb-1 text-lg font-semibold">{user.email}</h1>
-      <p className="mb-4 text-sm text-gray-500">Created {new Date(user.created_at).toLocaleString()}</p>
+      <p className="mb-4 text-sm text-muted-foreground">Created {new Date(user.created_at).toLocaleString()}</p>
 
       <Form method="post" className="mb-4 flex items-end gap-2">
         <input type="hidden" name="intent" value="change-role" />
@@ -41,13 +41,13 @@ export default function UserDetail() {
           <label className="block text-xs font-medium" htmlFor="role">
             Role
           </label>
-          <select id="role" name="role" defaultValue={user.role} className="rounded border border-gray-300 px-2 py-1 text-sm">
+          <select id="role" name="role" defaultValue={user.role} className="rounded border border-border px-2 py-1 text-sm">
             <option value="viewer">viewer</option>
             <option value="editor">editor</option>
             <option value="admin">admin</option>
           </select>
         </div>
-        <button type="submit" className="rounded bg-gray-900 px-3 py-1.5 text-sm text-white hover:bg-gray-700">
+        <button type="submit" className="rounded bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90">
           Update role
         </button>
       </Form>
@@ -57,7 +57,9 @@ export default function UserDetail() {
         <button
           type="submit"
           className={`rounded px-3 py-1.5 text-sm text-white ${
-            user.is_active ? 'bg-red-600 hover:bg-red-500' : 'bg-green-600 hover:bg-green-500'
+            user.is_active
+              ? 'bg-red-600 hover:bg-red-500 dark:bg-red-500/80 dark:hover:bg-red-500'
+              : 'bg-green-600 hover:bg-green-500 dark:bg-green-500/80 dark:hover:bg-green-500'
           }`}
         >
           {user.is_active ? 'Deactivate' : 'Reactivate'}

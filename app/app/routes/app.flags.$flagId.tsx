@@ -85,8 +85,8 @@ export default function FlagDetail() {
   return (
     <div className="max-w-2xl">
       <h1 className="mb-1 text-lg font-semibold">{flag.key}</h1>
-      <p className="mb-4 text-sm text-gray-500">{flag.environment}</p>
-      {actionData?.error ? <p className="mb-4 text-sm text-red-600">{actionData.error}</p> : null}
+      <p className="mb-4 text-sm text-muted-foreground">{flag.environment}</p>
+      {actionData?.error ? <p className="mb-4 text-sm text-red-600 dark:text-red-400">{actionData.error}</p> : null}
 
       <Form method="post" className="space-y-6">
         <input type="hidden" name="targeting_rules" value={JSON.stringify(rules)} />
@@ -100,7 +100,7 @@ export default function FlagDetail() {
             name="description"
             defaultValue={flag.description ?? ''}
             disabled={!canEdit}
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+            className="mt-1 w-full rounded border border-border px-3 py-2 disabled:bg-muted"
           />
         </div>
 
@@ -111,7 +111,7 @@ export default function FlagDetail() {
           </label>
         </div>
 
-        <div className="rounded border border-red-200 bg-red-50 p-3">
+        <div className="rounded border border-red-200 bg-red-50 p-3 dark:border-red-500/30 dark:bg-red-500/10">
           <div className="flex items-center gap-2">
             <input
               id="is_kill_switch"
@@ -121,12 +121,12 @@ export default function FlagDetail() {
               disabled={!canEdit}
               onChange={(e) => setConfirmKill(e.target.checked && !flag.is_kill_switch)}
             />
-            <label htmlFor="is_kill_switch" className="text-sm font-medium text-red-700">
+            <label htmlFor="is_kill_switch" className="text-sm font-medium text-red-700 dark:text-red-400">
               Kill switch (always evaluates to false, overrides everything)
             </label>
           </div>
           {confirmKill ? (
-            <p className="mt-2 text-xs text-red-600">
+            <p className="mt-2 text-xs text-red-600 dark:text-red-400">
               Confirm before saving: this immediately disables the flag for all users once saved.
             </p>
           ) : null}
@@ -144,7 +144,7 @@ export default function FlagDetail() {
             max={100}
             defaultValue={flag.rollout_percentage ?? ''}
             disabled={!canEdit}
-            className="mt-1 w-32 rounded border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+            className="mt-1 w-32 rounded border border-border px-3 py-2 disabled:bg-muted"
           />
         </div>
 
@@ -157,35 +157,35 @@ export default function FlagDetail() {
             name="default_variant"
             defaultValue={String(flag.default_variant)}
             disabled={!canEdit}
-            className="mt-1 w-48 rounded border border-gray-300 px-3 py-2 disabled:bg-gray-100"
+            className="mt-1 w-48 rounded border border-border px-3 py-2 disabled:bg-muted"
           />
-          <p className="mt-1 text-xs text-gray-500">Use "true"/"false" for boolean flags, or any string variant.</p>
+          <p className="mt-1 text-xs text-muted-foreground">Use "true"/"false" for boolean flags, or any string variant.</p>
         </div>
 
         <div>
           <div className="mb-2 flex items-center justify-between">
             <h2 className="text-sm font-medium">Targeting rules (first match wins)</h2>
             {canEdit ? (
-              <button type="button" onClick={addRule} className="text-sm text-blue-700 hover:underline">
+              <button type="button" onClick={addRule} className="text-sm text-primary hover:underline">
                 + Add rule
               </button>
             ) : null}
           </div>
           <div className="space-y-2">
             {rules.map((rule, index) => (
-              <div key={index} className="flex flex-wrap items-center gap-2 rounded border border-gray-200 p-2">
+              <div key={index} className="flex flex-wrap items-center gap-2 rounded border border-border p-2">
                 <input
                   placeholder="attribute"
                   value={rule.attribute}
                   disabled={!canEdit}
                   onChange={(e) => updateRule(index, { attribute: e.target.value })}
-                  className="w-32 rounded border border-gray-300 px-2 py-1 text-sm"
+                  className="w-32 rounded border border-border px-2 py-1 text-sm"
                 />
                 <select
                   value={rule.operator}
                   disabled={!canEdit}
                   onChange={(e) => updateRule(index, { operator: e.target.value as Operator })}
-                  className="rounded border border-gray-300 px-2 py-1 text-sm"
+                  className="rounded border border-border px-2 py-1 text-sm"
                 >
                   {OPERATORS.map((op) => (
                     <option key={op} value={op}>
@@ -198,7 +198,7 @@ export default function FlagDetail() {
                     value={String(rule.value)}
                     disabled={!canEdit}
                     onChange={(e) => updateRule(index, { value: e.target.value })}
-                    className="rounded border border-gray-300 px-2 py-1 text-sm"
+                    className="rounded border border-border px-2 py-1 text-sm"
                   >
                     <option value="">select segment</option>
                     {segments.map((s) => (
@@ -217,7 +217,7 @@ export default function FlagDetail() {
                         value: rule.operator === 'in' ? e.target.value.split(',').map((v) => v.trim()) : e.target.value,
                       })
                     }
-                    className="w-40 rounded border border-gray-300 px-2 py-1 text-sm"
+                    className="w-40 rounded border border-border px-2 py-1 text-sm"
                   />
                 )}
                 <input
@@ -225,17 +225,17 @@ export default function FlagDetail() {
                   value={String(rule.variant)}
                   disabled={!canEdit}
                   onChange={(e) => updateRule(index, { variant: e.target.value })}
-                  className="w-24 rounded border border-gray-300 px-2 py-1 text-sm"
+                  className="w-24 rounded border border-border px-2 py-1 text-sm"
                 />
                 {canEdit ? (
                   <div className="ml-auto flex gap-1">
-                    <button type="button" onClick={() => moveRule(index, -1)} className="px-1 text-gray-500">
+                    <button type="button" onClick={() => moveRule(index, -1)} className="px-1 text-muted-foreground">
                       ↑
                     </button>
-                    <button type="button" onClick={() => moveRule(index, 1)} className="px-1 text-gray-500">
+                    <button type="button" onClick={() => moveRule(index, 1)} className="px-1 text-muted-foreground">
                       ↓
                     </button>
-                    <button type="button" onClick={() => removeRule(index)} className="px-1 text-red-600">
+                    <button type="button" onClick={() => removeRule(index)} className="px-1 text-red-600 dark:text-red-400">
                       remove
                     </button>
                   </div>
@@ -249,7 +249,7 @@ export default function FlagDetail() {
           <button
             type="submit"
             disabled={navigation.state === 'submitting'}
-            className="rounded bg-gray-900 px-4 py-2 text-white hover:bg-gray-700 disabled:opacity-50"
+            className="rounded bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
           >
             {navigation.state === 'submitting' ? 'Saving...' : 'Save changes'}
           </button>

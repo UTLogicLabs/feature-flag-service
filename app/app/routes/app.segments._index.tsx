@@ -26,22 +26,22 @@ export default function SegmentsIndex() {
   return (
     <div className="max-w-xl">
       <h1 className="mb-4 text-lg font-semibold">Segments</h1>
-      <ul className="mb-6 divide-y divide-gray-100 rounded border border-gray-200">
+      <ul className="mb-6 divide-y divide-border rounded border border-border">
         {segments.map((s: any) => (
           <li key={s.id} className="px-3 py-2 text-sm">
-            <Link to={`/app/segments/${s.id}`} className="text-blue-700 hover:underline">
+            <Link to={`/app/segments/${s.id}`} className="text-primary hover:underline">
               {s.key}
             </Link>
-            <span className="ml-2 text-gray-400">{s.rules.length} rule(s)</span>
+            <span className="ml-2 text-muted-foreground">{s.rules.length} rule(s)</span>
           </li>
         ))}
-        {segments.length === 0 ? <li className="px-3 py-4 text-center text-gray-400">No segments yet.</li> : null}
+        {segments.length === 0 ? <li className="px-3 py-4 text-center text-muted-foreground">No segments yet.</li> : null}
       </ul>
       {canEdit ? (
         <Form method="post" className="flex gap-2">
-          {actionData?.error ? <p className="text-sm text-red-600">{actionData.error}</p> : null}
-          <input name="key" placeholder="new segment key" required className="rounded border border-gray-300 px-3 py-2 text-sm" />
-          <button type="submit" className="rounded bg-gray-900 px-3 py-2 text-sm text-white hover:bg-gray-700">
+          {actionData?.error ? <p className="text-sm text-red-600 dark:text-red-400">{actionData.error}</p> : null}
+          <input name="key" placeholder="new segment key" required className="rounded border border-border px-3 py-2 text-sm" />
+          <button type="submit" className="rounded bg-primary px-3 py-2 text-sm text-primary-foreground hover:bg-primary/90">
             Create
           </button>
         </Form>

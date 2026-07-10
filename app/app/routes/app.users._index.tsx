@@ -36,7 +36,7 @@ export default function UsersIndex() {
       <h1 className="mb-4 text-lg font-semibold">Users</h1>
       <table className="mb-6 w-full border-collapse text-sm">
         <thead>
-          <tr className="border-b border-gray-200 text-left text-gray-500">
+          <tr className="border-b border-border text-left text-muted-foreground">
             <th className="py-2">Email</th>
             <th className="py-2">Role</th>
             <th className="py-2">Active</th>
@@ -45,12 +45,12 @@ export default function UsersIndex() {
         </thead>
         <tbody>
           {users.map((u) => (
-            <tr key={u.id} className="border-b border-gray-100">
+            <tr key={u.id} className="border-b border-border">
               <td className="py-2">{u.email}</td>
               <td className="py-2">{u.role}</td>
               <td className="py-2">{u.is_active ? 'Yes' : 'No'}</td>
               <td className="py-2">
-                <Link to={`/app/users/${u.id}`} className="text-blue-700 hover:underline">
+                <Link to={`/app/users/${u.id}`} className="text-primary hover:underline">
                   Manage
                 </Link>
               </td>
@@ -60,16 +60,16 @@ export default function UsersIndex() {
       </table>
 
       <h2 className="mb-2 text-sm font-medium">Invite user</h2>
-      <p className="mb-2 text-xs text-gray-500">
+      <p className="mb-2 text-xs text-muted-foreground">
         No email infrastructure — communicate the temporary password out of band.
       </p>
       <Form method="post" className="flex flex-wrap items-end gap-2">
-        {actionData?.error ? <p className="w-full text-sm text-red-600">{actionData.error}</p> : null}
+        {actionData?.error ? <p className="w-full text-sm text-red-600 dark:text-red-400">{actionData.error}</p> : null}
         <div>
           <label className="block text-xs font-medium" htmlFor="email">
             Email
           </label>
-          <input id="email" name="email" type="email" required className="rounded border border-gray-300 px-2 py-1 text-sm" />
+          <input id="email" name="email" type="email" required className="rounded border border-border px-2 py-1 text-sm" />
         </div>
         <div>
           <label className="block text-xs font-medium" htmlFor="password">
@@ -80,20 +80,20 @@ export default function UsersIndex() {
             name="password"
             type="text"
             required
-            className="rounded border border-gray-300 px-2 py-1 text-sm"
+            className="rounded border border-border px-2 py-1 text-sm"
           />
         </div>
         <div>
           <label className="block text-xs font-medium" htmlFor="role">
             Role
           </label>
-          <select id="role" name="role" className="rounded border border-gray-300 px-2 py-1 text-sm">
+          <select id="role" name="role" className="rounded border border-border px-2 py-1 text-sm">
             <option value="viewer">viewer</option>
             <option value="editor">editor</option>
             <option value="admin">admin</option>
           </select>
         </div>
-        <button type="submit" className="rounded bg-gray-900 px-3 py-1.5 text-sm text-white hover:bg-gray-700">
+        <button type="submit" className="rounded bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90">
           Create
         </button>
       </Form>

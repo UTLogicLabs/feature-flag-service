@@ -60,8 +60,8 @@ export default function SegmentDetail() {
   return (
     <div className="max-w-2xl">
       <h1 className="mb-1 text-lg font-semibold">{segment.key}</h1>
-      <p className="mb-4 text-sm text-gray-500">Matches if ANY rule below is true.</p>
-      {actionData?.error ? <p className="mb-4 text-sm text-red-600">{actionData.error}</p> : null}
+      <p className="mb-4 text-sm text-muted-foreground">Matches if ANY rule below is true.</p>
+      {actionData?.error ? <p className="mb-4 text-sm text-red-600 dark:text-red-400">{actionData.error}</p> : null}
 
       <Form method="post" className="space-y-4">
         <input type="hidden" name="rules" value={JSON.stringify(rules)} />
@@ -69,7 +69,7 @@ export default function SegmentDetail() {
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-sm font-medium">Rules</h2>
           {canEdit ? (
-            <button type="button" onClick={addRule} className="text-sm text-blue-700 hover:underline">
+            <button type="button" onClick={addRule} className="text-sm text-primary hover:underline">
               + Add rule
             </button>
           ) : null}
@@ -77,19 +77,19 @@ export default function SegmentDetail() {
 
         <div className="space-y-2">
           {rules.map((rule, index) => (
-            <div key={index} className="flex flex-wrap items-center gap-2 rounded border border-gray-200 p-2">
+            <div key={index} className="flex flex-wrap items-center gap-2 rounded border border-border p-2">
               <input
                 placeholder="attribute"
                 value={rule.attribute}
                 disabled={!canEdit}
                 onChange={(e) => updateRule(index, { attribute: e.target.value })}
-                className="w-32 rounded border border-gray-300 px-2 py-1 text-sm"
+                className="w-32 rounded border border-border px-2 py-1 text-sm"
               />
               <select
                 value={rule.operator}
                 disabled={!canEdit}
                 onChange={(e) => updateRule(index, { operator: e.target.value as Operator })}
-                className="rounded border border-gray-300 px-2 py-1 text-sm"
+                className="rounded border border-border px-2 py-1 text-sm"
               >
                 {SEGMENT_OPERATORS.map((op) => (
                   <option key={op} value={op}>
@@ -106,10 +106,10 @@ export default function SegmentDetail() {
                     value: rule.operator === 'in' ? e.target.value.split(',').map((v) => v.trim()) : e.target.value,
                   })
                 }
-                className="w-40 rounded border border-gray-300 px-2 py-1 text-sm"
+                className="w-40 rounded border border-border px-2 py-1 text-sm"
               />
               {canEdit ? (
-                <button type="button" onClick={() => removeRule(index)} className="ml-auto px-1 text-red-600">
+                <button type="button" onClick={() => removeRule(index)} className="ml-auto px-1 text-red-600 dark:text-red-400">
                   remove
                 </button>
               ) : null}
@@ -121,7 +121,7 @@ export default function SegmentDetail() {
           <button
             type="submit"
             disabled={navigation.state === 'submitting'}
-            className="rounded bg-gray-900 px-4 py-2 text-white hover:bg-gray-700 disabled:opacity-50"
+            className="rounded bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
           >
             {navigation.state === 'submitting' ? 'Saving...' : 'Save changes'}
           </button>
