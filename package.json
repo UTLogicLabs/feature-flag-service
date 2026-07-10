@@ -1,0 +1,29 @@
+{
+  "name": "feature-flag-service",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "app",
+    "packages/sdk"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w app",
+    "build": "npm run build -w app && npm run build -w @feature-flag-service/sdk",
+    "test": "vitest run --project unit --project sdk",
+    "test:integration": "vitest run --project integration",
+    "migrate": "dotenv -e .env -- node-pg-migrate --migrations-dir db/migrations --migrations-table pgmigrations up",
+    "migrate:test": "dotenv -e .env.test -- node-pg-migrate --migrations-dir db/migrations --migrations-table pgmigrations up",
+    "sdk:build": "npm run build -w @feature-flag-service/sdk",
+    "sdk:size-check": "node packages/sdk/scripts/check-size.mjs"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
+    "fast-check": "^3.20.0",
+    "jsdom": "^24.1.1",
+    "node-pg-migrate": "^7.6.1",
+    "pg": "^8.11.5",
+    "typescript": "^5.5.4",
+    "vitest": "^3.0.0"
+  }
+}
